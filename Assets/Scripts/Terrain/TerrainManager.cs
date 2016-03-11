@@ -40,24 +40,10 @@ public class TerrainManager : MonoBehaviour {
 	TerrainNoise terrainNoise;
 
 	public void Start() {
-		StartCoroutine (GenerateTerrain ());
+		GenerateTerrain ();
 	}
 
-	IEnumerator GenerateTerrain() {
-		StopAllCoroutines ();
-
-		if (transform.childCount > 0) {
-			if (Application.isPlaying) {
-				for (int i = 0; transform.childCount > 0; i++) {
-					Destroy (transform.GetChild (0).gameObject);
-				}
-			} else {
-				for (int i = 0; transform.childCount > 0; i++) {
-					DestroyImmediate (transform.GetChild (0).gameObject);
-				}
-			}
-		}
-
+	void GenerateTerrain() {
 		terrainTiles = GetComponent<TerrainTiles> ();
 
 		InitializeMeshTiles ();
@@ -65,7 +51,7 @@ public class TerrainManager : MonoBehaviour {
 
 		terrainTileArray = terrainTiles.GenerateTerrainTiles (gameObject, "Terrain", terrainTileNumX, terrainTileNumZ);
 
-		yield return StartCoroutine (TerrainCoroutine ());
+		StartCoroutine (TerrainCoroutine ());
 	}
 
 	void InitializeMeshTiles() {
